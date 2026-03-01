@@ -7,6 +7,6 @@ const isProd = import.meta.env.PROD;
 export default defineConfig({
   output: "static",
   site: "https://nida-institute.github.io",
-  base: isProd ? "/nida-website" : "/",   // ✅ dev at /, deploy at /nida-website
+  base: import.meta.env.PROD ? "/nida-website" : "/",
   vite: { plugins: [tailwindcss()] },
 });
