@@ -7,7 +7,7 @@ import tailwindcss from "@tailwindcss/vite";
 // - User/org pages: https://<user>.github.io/       -> base: "/"
 export default defineConfig({
   output: "static",
-  site: "https://YOUR_GITHUB_USERNAME.github.io",
-  base: "/nida-website",
+  site: "https://nida-institute.github.io",
+  base: "/",
   vite: { plugins: [tailwindcss()] },
 });
