@@ -1,0 +1,32 @@
+<button
+  id="theme-toggle"
+  class="rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-2 text-xs text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition"
+  type="button"
+>
+  Theme
+</button>
+
+<script is:inline>
+  const storageKey = "theme";
+  const root = document.documentElement;
+
+  function preferredTheme() {
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+
+  function applyTheme(theme) {
+    if (theme === "dark") root.classList.add("dark");
+    else root.classList.remove("dark");
+  }
+
+  // Initialize
+  const saved = localStorage.getItem(storageKey);
+  applyTheme(saved || preferredTheme());
+
+  document.getElementById("theme-toggle")?.addEventListener("click", () => {
+    const isDark = root.classList.contains("dark");
+    const next = isDark ? "light" : "dark";
+    localStorage.setItem(storageKey, next);
+    applyTheme(next);
+  });
+</script>

@@ -1,0 +1,50 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import SidebarNav from "../components/SidebarNav.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import Toc from "../components/Toc.astro";
+
+const {
+  title = "The Nida Institute",
+  description = "",
+  activePath = "/",
+  headings = [],
+} = Astro.props;
+---
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+
+    <!-- base-safe favicons for GitHub Pages -->
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} />
+  </head>
+  <body class="min-h-screen bg-zinc-50 text-zinc-900 antialiased dark:bg-zinc-950 dark:text-zinc-100">
+    <Header activePath={activePath} />
+
+    <main class="mx-auto max-w-6xl px-6 py-10">
+      <div class="grid grid-cols-1 lg:grid-cols-[240px_1fr] xl:grid-cols-[240px_1fr_220px] gap-10">
+        <SidebarNav activePath={activePath} />
+
+        <div class="rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+          <div class="p-8 md:p-10">
+            <Breadcrumbs title={title} activePath={activePath} />
+            <article class="prose prose-zinc dark:prose-invert max-w-none mt-6">
+              <slot />
+            </article>
+          </div>
+        </div>
+
+        <Toc headings={headings} />
+      </div>
+
+      <Footer />
+    </main>
+  </body>
+</html>

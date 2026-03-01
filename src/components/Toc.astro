@@ -1,0 +1,27 @@
+---
+const { headings = [] } = Astro.props;
+
+// Keep h2/h3 for a clean toc
+const items = (headings || []).filter((h) => h.depth === 2 || h.depth === 3);
+---
+{items.length > 0 && (
+  <aside class="hidden xl:block">
+    <div class="sticky top-24">
+      <div class="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400 mb-3">
+        On this page
+      </div>
+      <nav class="space-y-1 text-sm">
+        {items.map((h) => (
+          <a
+            href={`#${h.slug}`}
+            class={`block rounded-lg px-2 py-1 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition ${
+              h.depth === 3 ? "ml-3 text-zinc-600 dark:text-zinc-300" : "text-zinc-700 dark:text-zinc-200"
+            }`}
+          >
+            {h.text}
+          </a>
+        ))}
+      </nav>
+    </div>
+  </aside>
+)}

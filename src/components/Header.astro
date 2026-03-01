@@ -1,0 +1,56 @@
+---
+import { getCollection } from "astro:content";
+import ThemeToggle from "./ThemeToggle.astro";
+
+const BASE = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
+const all = await getCollection("pages");
+const nav = all
+  .filter((p) => p.data.showInNav !== false && p.data.draft !== true)
+  .sort((a, b) => (a.data.navOrder ?? 999) - (b.data.navOrder ?? 999))
+  .map((p) => ({ href: p.data.isHome ? "/" : `/${p.slug}`, label: p.data.title }));
+
+const { activePath = "/" } = Astro.props;
+---
+<header class="sticky top-0 z-40 border-b border-zinc-200 bg-white/80 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/70">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 gap-4">
+    <a href={BASE} class="flex items-center gap-3">
+      <img src={`${BASE}logo.jpg`} alt="Nida logo" class="h-8 w-auto" />
+      <span class="font-semibold tracking-tight text-lg">The Nida Institute</span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-1 text-sm">
+      {nav.map((item) => (
+        <a
+          href={`${BASE}${item.href.replace(/^\//, "")}`}
+          class={`px-3 py-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-900 transition ${
+            activePath === item.href ? "bg-zinc-100 dark:bg-zinc-900 font-medium" : "text-zinc-700 dark:text-zinc-300"
+          }`}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <ThemeToggle />
+      <details class="md:hidden">
+        <summary class="cursor-pointer rounded-lg px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-900">Menu</summary>
+        <div class="mt-2 flex flex-col gap-1 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-2 shadow-sm">
+          {nav.map((item) => (
+            <a
+              href={`${BASE}${item.href.replace(/^\//, "")}`}
+              class={`px-3 py-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900 transition ${
+                activePath === item.href ? "bg-zinc-100 dark:bg-zinc-900 font-medium" : "text-zinc-700 dark:text-zinc-300"
+              }`}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      </details>
+    </div>
+  </div>
+</header>

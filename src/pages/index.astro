@@ -1,11 +1,16 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const all = await getCollection("pages");
+const entry = all.find((p) => p.data.isHome && p.data.draft !== true);
+if (!entry) throw new Error("No homepage found. Set `isHome: true` in one Markdown file in src/content/pages/");
+
+const { Content, headings } = await entry.render();
+const title = entry.data.title ?? "The Nida Institute";
+const description = entry.data.description ?? "";
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout title={title} description={description} activePath="/" headings={headings}>
+  <Content />
+</BaseLayout>

@@ -1,0 +1,53 @@
+---
+import { getCollection } from "astro:content";
+
+const BASE = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
+const all = await getCollection("pages");
+const { activePath = "/" } = Astro.props;
+
+const items = all
+  .filter((p) => p.data.showInNav !== false && p.data.draft !== true)
+  .sort((a, b) => (a.data.navOrder ?? 999) - (b.data.navOrder ?? 999))
+  .map((p) => ({
+    href: p.data.isHome ? "/" : `/${p.slug}`,
+    label: p.data.title,
+    section: p.data.section || "Pages",
+  }));
+
+// Group by section
+const grouped = items.reduce((acc, it) => {
+  acc[it.section] = acc[it.section] || [];
+  acc[it.section].push(it);
+  return acc;
+}, /** @type {Record<string, typeof items>} */ ({}));
+
+const sectionNames = Object.keys(grouped);
+---
+<aside class="hidden lg:block">
+  <nav class="sticky top-24 space-y-6 text-sm">
+    {sectionNames.map((name) => (
+      <div>
+        <div class="px-3 mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+          {name}
+        </div>
+        <div class="space-y-1">
+          {grouped[name].map((it) => (
+            <a
+              href={`${BASE}${it.href.replace(/^\//, "")}`}
+              class={`block rounded-xl px-3 py-2 border border-transparent hover:bg-zinc-100 dark:hover:bg-zinc-900 transition ${
+                activePath === it.href
+                  ? "bg-zinc-100 dark:bg-zinc-900 font-medium text-zinc-900 dark:text-zinc-100"
+                  : "text-zinc-700 dark:text-zinc-300"
+              }`}
+            >
+              {it.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    ))}
+  </nav>
+</aside>

@@ -1,0 +1,47 @@
+---
+import { getCollection } from "astro:content";
+
+const allPages = await getCollection("pages");
+const nav = allPages
+  .filter((p) => p.data.showInNav !== false)
+  .sort((a, b) => (a.data.navOrder ?? 999) - (b.data.navOrder ?? 999))
+  .map((p) => ({ href: p.data.isHome ? "/" : `/${p.slug}`, label: p.data.title }));
+
+const { activePath = "/" } = Astro.props;
+---
+<header class="border-b border-zinc-200 bg-white/80 backdrop-blur">
+  <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between gap-4">
+    <a href="/" class="font-semibold tracking-tight">
+      The Nida Institute
+    </a>
+
+    <nav class="hidden md:flex items-center gap-1 text-sm">
+      {nav.map((item) => (
+        <a
+          href={item.href}
+          class={`px-3 py-2 rounded-full hover:bg-zinc-100 transition ${
+            activePath === item.href ? "bg-zinc-100 font-medium" : "text-zinc-700"
+          }`}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <details class="md:hidden">
+      <summary class="cursor-pointer rounded-lg px-3 py-2 hover:bg-zinc-100">Menu</summary>
+      <div class="mt-2 flex flex-col gap-1 rounded-xl border border-zinc-200 bg-white p-2 shadow-sm">
+        {nav.map((item) => (
+          <a
+            href={item.href}
+            class={`px-3 py-2 rounded-lg hover:bg-zinc-100 transition ${
+              activePath === item.href ? "bg-zinc-100 font-medium" : "text-zinc-700"
+            }`}
+          >
+            {item.label}
+          </a>
+        ))}
+      </div>
+    </details>
+  </div>
+</header>

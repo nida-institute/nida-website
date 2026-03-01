@@ -1,46 +1,29 @@
-# Astro Starter Kit: Basics
+# Nida Website (Astro + Markdown + Tailwind + GitHub Pages)
 
-```sh
-npm create astro@latest -- --template basics
+This project uses **Astro Content Collections** for page text in **Markdown**.
+
+## Run locally
+
+```bash
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Edit content
 
-## 🚀 Project Structure
+Markdown files live here:
 
-Inside of your Astro project, you'll see the following folders and files:
+- `src/content/pages/`
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+## GitHub Pages config
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+Edit `astro.config.mjs`:
 
-## 🧞 Commands
+- `site: "https://YOUR_GITHUB_USERNAME.github.io"`
+- `base: "/YOUR_REPO_NAME"` (project pages at `/<repo>/`)
+- If your repo is `YOUR_GITHUB_USERNAME.github.io`, set `base: "/"`
 
-All commands are run from the root of the project, from a terminal:
+Then in GitHub:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+- **Settings → Pages → Build and deployment → Source: GitHub Actions**
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

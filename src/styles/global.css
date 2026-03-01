@@ -1,1 +1,6 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+:root{color-scheme:light dark;}
+.prose a{ text-underline-offset:3px; }
+.prose h1,.prose h2,.prose h3{ letter-spacing:-0.01em; }

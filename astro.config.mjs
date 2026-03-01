@@ -2,12 +2,12 @@
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 
-// https://astro.build/config
+// GitHub Pages notes:
+// - Project pages: https://<user>.github.io/<repo>/  -> base: "/<repo>"
+// - User/org pages: https://<user>.github.io/       -> base: "/"
 export default defineConfig({
-  vite: {
-    plugins: [tailwindcss()],
-  },
-  site: "https://nida-institute.github.io",
+  output: "static",
+  site: "https://YOUR_GITHUB_USERNAME.github.io",
   base: "/nida-website",
+  vite: { plugins: [tailwindcss()] },
 });
-
