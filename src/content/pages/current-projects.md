@@ -6,6 +6,7 @@ navOrder: 6
 
 ### Current Projects
 
+* Oral Bible Translation Using Cornerstone/Calao Formula
 * Project MARBLE https://marble.bible  
 * Bible Online Learner https://learner.bible  
 * Kairos Project  
